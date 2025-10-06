@@ -1,4 +1,5 @@
 package Paradigma_Estructurado;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -52,20 +53,29 @@ public class Estructurado {
         System.out.println("✅ Tarea creada con éxito.\n");
     }
 
-    // R: Leer/Listar
+    // R: Leer/Listar — tabla alineada + totales
     static void listarTareas() {
         if (ids.isEmpty()) {
             System.out.println("No hay tareas registradas.\n");
             return;
         }
+
+        int cntFin = 0;
         System.out.println("======= LISTA DE TAREAS =======");
         System.out.printf("%-5s | %-11s | %s%n", "ID", "Estado", "Descripción");
         System.out.println("-----------------------------------------------");
+
         for (int i = 0; i < ids.size(); i++) {
-            String estado = finalizadas.get(i) ? "✔ Finalizada" : "Pendiente";
+            boolean fin = finalizadas.get(i);
+            String estado = fin ? "✔ Finalizada" : "Pendiente";
+            if (fin) cntFin++;
             System.out.printf("%-5d | %-11s | %s%n", ids.get(i), estado, descripciones.get(i));
         }
-        System.out.println();
+
+        int total = ids.size();
+        int pendientes = total - cntFin;
+        System.out.println("-----------------------------------------------");
+        System.out.printf("Total: %d | Finalizadas: %d | Pendientes: %d%n%n", total, cntFin, pendientes);
     }
 
     // U: Actualizar (editar descripción) — versión inicial
