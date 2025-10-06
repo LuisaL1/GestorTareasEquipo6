@@ -35,15 +35,19 @@ public class Estructurado {
     }
 
     // ===== CRUD =====
-    // C: Crear
+    // C: Crear — versión robusta
     static void crearTarea() {
-        String desc = leerTexto("Descripción de la nueva tarea: ");
+        String desc = leerTexto("Descripción de la nueva tarea: ").trim();
         if (desc.isBlank()) {
             System.out.println("La descripción no puede estar vacía.\n");
             return;
         }
+        if (existeDescripcion(desc)) {
+            System.out.println("Ya existe una tarea con esa descripción.\n");
+            return;
+        }
         ids.add(siguienteId++);
-        descripciones.add(desc.trim());
+        descripciones.add(desc);
         finalizadas.add(false);
         System.out.println("✅ Tarea creada con éxito.\n");
     }
@@ -64,7 +68,7 @@ public class Estructurado {
         System.out.println();
     }
 
-    // U: Actualizar (editar descripción)
+    // U: Actualizar (editar descripción) — versión inicial
     static void actualizarDescripcion() {
         if (ids.isEmpty()) {
             System.out.println("No hay tareas para actualizar.\n");
@@ -156,5 +160,13 @@ public class Estructurado {
     static String leerTexto(String prompt) {
         System.out.print(prompt);
         return sc.nextLine();
+    }
+
+    // Helper para validar duplicados
+    static boolean existeDescripcion(String texto) {
+        for (String d : descripciones) {
+            if (d.equalsIgnoreCase(texto)) return true;
+        }
+        return false;
     }
 }
